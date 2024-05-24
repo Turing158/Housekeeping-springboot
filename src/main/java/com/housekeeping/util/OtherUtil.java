@@ -12,6 +12,19 @@ public class OtherUtil {
         }
         return code.toString();
     }
+    public static String getRandomNumber(int length){
+        char[] num_letter = "0123456789".toCharArray();
+        java.util.Random r = new java.util.Random();
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            char num = num_letter[r.nextInt(num_letter.length)];
+            while (i == 0 && num == '0') {
+                num = num_letter[r.nextInt(num_letter.length)];
+            }
+            code.append(num);
+        }
+        return code.toString();
+    }
 
     public static List<?> subList(List<?> list, int pageSize, int pageNum) {
         int count = list.size();

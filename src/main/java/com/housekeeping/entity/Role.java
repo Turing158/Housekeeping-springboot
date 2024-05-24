@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceToUser {
-    int id;
-    String title;
-    String date;
-    String name;
-    String region;
-    String label;
+public class Role {
+    String role;
+    String rolename;
 }

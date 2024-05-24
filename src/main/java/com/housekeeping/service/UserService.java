@@ -2,6 +2,7 @@ package com.housekeeping.service;
 
 import com.housekeeping.dao.UserDao;
 import com.housekeeping.entity.Result;
+import com.housekeeping.entity.Role;
 import com.housekeeping.entity.User;
 import com.housekeeping.exception.ErrorException;
 import com.housekeeping.util.AECSecurity;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -56,12 +58,22 @@ public class UserService {
             User userObj = userDao.findUserByUser(user);
             if(userObj == null){
                 String name = "新用户"+ OtherUtil.getCode(6);
-                User userNew = new User(user,aecSecurity.encrypt(password),name,"user",region);
+                User userNew = new User(user,aecSecurity.encrypt(password),name,"user",region,null);
                 int r = userDao.insertUser(userNew);
                 return r == 1 ? Result.success() : Result.error("注册失败");
             }
             throw new ErrorException("用户已存在");
         }
         throw new ErrorException("验证码错误");
+    }
+
+    public Result findAllUser(int page){
+        List<User> userObj = userDao.findAllUser();
+        return Result.success(OtherUtil.subList(userObj,10,page),userObj.size());
+    }
+
+    public Result findAllRole(int page){
+        List<Role> roles = userDao.findAllRole();
+        return Result.success(OtherUtil.subList(roles,10,page),roles.size());
     }
 }

@@ -12,7 +12,20 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping("/findAllServicerOrderByRegion")
-    public Result findAllServicerOrderByRegion(String region) {
-        return companyService.findAllServicerOrderByRegion(region);
+    public Result findAllServicerOrderByRegion(int page,String region) {
+        return companyService.findAllServicerOrderByRegion(page,region);
+    }
+
+    @PostMapping("/findServicerByUser")
+    public Result findServicerByUser(String user) {
+        return companyService.findServicerByUser(user);
+    }
+
+
+
+    final String admin = "/admin";
+    @PostMapping(admin+"/findAllCompany")
+    public Result findAllCompany(int page){
+        return companyService.findAllCompany(page);
     }
 }

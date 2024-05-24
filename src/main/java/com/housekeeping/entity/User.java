@@ -13,4 +13,5 @@ public class User {
     String name;
     String role;
     String region;
+    String avatar;
 }

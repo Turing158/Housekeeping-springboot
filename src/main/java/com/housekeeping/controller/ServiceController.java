@@ -15,4 +15,9 @@ public class ServiceController {
     public Result findAllServiceOrderByRegion(int page,String region) {
         return serviceService.findAllServiceOrderByRegion(page,region);
     }
+
+    @PostMapping("/findServiceById")
+    public Result findServiceById(int id) {
+        return serviceService.findServiceById(id);
+    }
 }

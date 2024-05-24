@@ -14,6 +14,4 @@ public class ServicerToUser {
     String experience;
     String region;
     String company;
-    String certificateInfo;
-    String experienceInfo;
 }
