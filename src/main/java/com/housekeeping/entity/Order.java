@@ -10,9 +10,13 @@ import lombok.NoArgsConstructor;
 public class Order {
     String id;
     String createUser;
+    String createName;
     String createDate;
     int service;
+    String serviceName;
     String reservedUser;
+    String reservedName;
+    String reservedPhone;
     String reservedDate;
     String reservedPlace;
     String note;

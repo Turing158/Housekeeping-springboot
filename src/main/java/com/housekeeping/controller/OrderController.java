@@ -18,4 +18,35 @@ public class OrderController {
     public Result createOrder(@RequestHeader("Authorization") String token, @RequestBody Order order) {
         return orderService.createOrder(token, order);
     }
+
+    @PostMapping("/findOrderById")
+    public Result findOrderById(@RequestHeader("Authorization") String token, String id) {
+        return orderService.findOrderById(token, id);
+    }
+
+    @PostMapping("/findAllOrderToUser")
+    public Result findAllOrderToUser(@RequestHeader("Authorization") String token, int page) {
+        return orderService.findAllOrderToUser(token, page);
+    }
+
+    @PostMapping("/findAllOrderToServicer")
+    public Result findAllOrderToServicer(@RequestHeader("Authorization") String token, int page) {
+        return orderService.findAllOrderToServicer(token, page);
+    }
+
+    @PostMapping("/acceptOrder")
+    public Result acceptOrder(@RequestHeader("Authorization") String token, String id) {
+        return orderService.acceptOrder(token, id);
+    }
+    @PostMapping("/completeOrder")
+    public Result completeOrder(@RequestHeader("Authorization") String token, String id) {
+        return orderService.completeOrder(token, id);
+    }
+
+    @PostMapping("/evaluateOrder")
+    public Result evaluateOrder(@RequestHeader("Authorization") String token, String id, String star, String evaluate) {
+        return orderService.evaluateOrder(token, id, star, evaluate);
+    }
 }
+
+

@@ -57,7 +57,7 @@ public class JwtFilter extends OncePerRequestFilter {
             JwtUtil.parseJWT(token);
         }catch (ExpiredJwtException e){
             log.info("token已过期");
-            resp.getWriter().write(JsonOperation.toJson(Result.error(500,"token解析失败,请先登录")));
+            resp.getWriter().write(JsonOperation.toJson(Result.error(500,"TOKEN_EXPIRED")));
             return;
         }catch (MalformedJwtException e){
             log.info("token解析失败，拒绝访问：{}",url);
