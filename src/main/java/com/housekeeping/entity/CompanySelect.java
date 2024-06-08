@@ -7,12 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceToUser {
+
+public class CompanySelect {
     int id;
-    String title;
-    String date;
     String name;
-    String user;
-    String region;
-    String label;
+    String date;
 }

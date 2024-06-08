@@ -46,19 +46,25 @@ public class OrderService {
         Claims claims = JwtUtil.parseJWT(token);
         String user = (String) claims.get("USER");
         List<Order> orders = orderDao.findAllOrderByCreateUser(user);
-        return Result.success(OtherUtil.subList(orders,10,page),orders.size());
+        return !orders.isEmpty()?
+                Result.success(OtherUtil.subList(orders,10,page),orders.size()):
+                Result.error("无数据");
     }
 
     public Result findAllOrderToServicer(String token,int page){
         Claims claims = JwtUtil.parseJWT(token);
         String user = (String) claims.get("USER");
         List<Order> orders = orderDao.findAllOrderByReservedUser(user);
-        return orders.isEmpty() ? Result.success(null) : Result.success(OtherUtil.subList(orders,10,page),orders.size());
+        return orders.isEmpty() ?
+                Result.error("无数据") :
+                Result.success(OtherUtil.subList(orders,10,page),orders.size());
     }
 
     public Result findAllOrder(int page){
         List<Order> orders = orderDao.findAllOrder();
-        return Result.success(OtherUtil.subList(orders,10,page),orders.size());
+        return orders.isEmpty()?
+                Result.error("无数据"):
+                Result.success(OtherUtil.subList(orders,10,page),orders.size());
     }
 
     public Result findOrderById(String token,String id){
