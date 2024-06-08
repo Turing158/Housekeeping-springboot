@@ -1,5 +1,9 @@
 package com.housekeeping.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Base64;
 import java.util.List;
 
 public class OtherUtil {
@@ -32,6 +36,41 @@ public class OtherUtil {
         int start = pageNum <= 0 ? 0 : (pageNum > pages ? (pages - 1) * pageSize : (pageNum - 1) * pageSize);
         int end = pageNum <= 0 ? (Math.min(pageSize, count)) : (Math.min(pageSize * pageNum, count));
         return list.subList(start, end);
+    }
+
+
+    public static String getImageSuffixByBase64(String base64){
+        //获取base64的图片后缀
+        String suffix = base64.split(",")[0].split("/")[1].split(";")[0];
+        return suffix;
+    }
+
+    public static byte[] base64ToByte(String base64){
+        byte[] bytes = Base64.getDecoder().decode(base64.split(",")[1]);
+        for (int i = 0; i < bytes.length; ++i) {
+            if (bytes[i] < 0) {
+                bytes[i] += 256;
+            }
+        }
+        return bytes;
+    }
+
+    public static int saveFile(byte[] bytes, String path,String fileName) {
+        if(!new File(path).exists()){
+            throw new RuntimeException("文件夹不存在");
+        }
+        try{
+            OutputStream out = new FileOutputStream(path+"/"+fileName);
+            out.write(bytes);
+            out.flush();
+            out.close();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+        if(new File(path+"/"+fileName).exists()){
+            return 1;
+        }
+        return 0;
     }
 
 }
