@@ -76,4 +76,31 @@ public class UserService {
         List<Role> roles = userDao.findAllRole();
         return Result.success(OtherUtil.subList(roles,10,page),roles.size());
     }
+
+    public Result updateUserInfo(String user,String name,String region,String code,HttpSession session){
+        String codeSession = (String) session.getAttribute("code");
+        if(codeSession.equals(code)){
+            User userObj = new User();
+            userObj.setUser(user);
+            userObj.setName(name);
+            userObj.setRegion(region);
+            int r = userDao.updateUser(userObj);
+            return r == 1 ? Result.success() : Result.error("更新失败");
+        }
+        return Result.error("验证码错误");
+    }
+
+    public Result updateUserRole(String user,String oldPassword,String newPassword,String code,HttpSession session){
+        String codeSession = (String) session.getAttribute("code");
+        if(codeSession.equals(code)){
+            User userObj = userDao.findUserByUser(user);
+            if(userObj.getPassword().equals(aecSecurity.encrypt(oldPassword))){
+                userObj.setPassword(aecSecurity.encrypt(newPassword));
+                int r = userDao.updateUser(userObj);
+                return r == 1 ? Result.success() : Result.error("更新失败");
+            }
+            return Result.error("旧密码错误");
+        }
+        return Result.error("验证码错误");
+    }
 }
