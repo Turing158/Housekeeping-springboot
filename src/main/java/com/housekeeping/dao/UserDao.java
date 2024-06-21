@@ -27,6 +27,9 @@ public interface UserDao {
     @Update("update housekeeping.user set name = #{name},role = #{role},region = #{region} where user = #{user}")
     int updateUser(User user);
 
+    @Update("update housekeeping.user set avatar = #{avatar} where user = #{user}")
+    int updateAvatar(String user,String avatar);
+
     @Update("update housekeeping.user set password = #{password} where user = #{user}")
     int updatePassword(User user);
 

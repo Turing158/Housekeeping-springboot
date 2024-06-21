@@ -11,8 +11,12 @@ import com.housekeeping.util.OtherUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +92,24 @@ public class UserService {
             return r == 1 ? Result.success() : Result.error("更新失败");
         }
         return Result.error("验证码错误");
+    }
+    @Value("${avatar.path}")
+    String avatarPath = "D:/EducationalData/vue/Housekeeping/src/assets/avatar";
+    public Result uploadAvatar(String token,String avatar){
+        Claims claim = JwtUtil.parseJWT(token);
+        String user = (String) claim.get("USER");
+        User userObj = userDao.findUserByUser(user);
+        byte[] bytes = OtherUtil.base64ToByte(avatar);
+        String suffix = OtherUtil.getImageSuffixByBase64(avatar);
+        LocalDateTime now = LocalDateTime.now();
+        String filename = user +now.format(DateTimeFormatter.ofPattern("yyyyMMddhhmmss"))+(""+now.getNano()).substring(0,4)+ "." + suffix;
+        OtherUtil.saveFile(bytes,avatarPath,filename);
+        int r = userDao.updateAvatar(user,filename);
+        if(userObj != null && !userObj.getAvatar().equals("default.jpg")){
+            File file = new File(avatarPath+"/"+userObj.getAvatar());
+            file.delete();
+        }
+        return r == 1 ? Result.success(filename) : Result.error("更新失败");
     }
 
     public Result updateUserRole(String user,String oldPassword,String newPassword,String code,HttpSession session){

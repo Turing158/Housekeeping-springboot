@@ -1,7 +1,6 @@
 package com.housekeeping.controller;
 
 import com.housekeeping.entity.Result;
-import com.housekeeping.entity.User;
 import com.housekeeping.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,10 @@ public class UserController {
     @PostMapping("/register")
     public Result register(String user,String password,String region,String code){
         return userService.register(user,password,code,region,session);
+    }
+    @PostMapping("/uploadAvatar")
+    public Result uploadAvatar(@RequestHeader("Authorization")String token,String avatar){
+        return userService.uploadAvatar(token,avatar);
     }
     final String admin = "/admin";
     @PostMapping(admin+"/findAllUser")
