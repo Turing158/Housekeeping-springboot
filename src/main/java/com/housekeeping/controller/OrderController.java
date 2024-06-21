@@ -47,6 +47,11 @@ public class OrderController {
     public Result evaluateOrder(@RequestHeader("Authorization") String token, String id, String star, String evaluate) {
         return orderService.evaluateOrder(token, id, star, evaluate);
     }
+
+    @PostMapping("/admin/findAllOrder")
+    public Result findAllOrder(int page) {
+        return orderService.findAllOrder(page);
+    }
 }
 
 
